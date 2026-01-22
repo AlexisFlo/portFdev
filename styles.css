@@ -22,6 +22,28 @@ body {
 a {
   text-decoration: none;
 }
+
+h1, h2, h3, .pn-phrase {
+  transition: all 0.1s ease;
+}
+
+#noise-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  background-color: transparent;
+  transition: opacity 0.5s steps(2);
+}
+
+.noise-active {
+  opacity: 0.12 !important;
+}
+
 /* NAV */
 .nav {
   position: fixed;
@@ -89,6 +111,12 @@ a {
   animation: glitchB 2.5s infinite;
 }
 
+.glitch-active-text {
+  opacity: 1 !important;
+  text-shadow: 2px 0 10px #00ff9d, -2px 0 5px rgba(255, 255, 255, 0.5);
+  transform: skewX(-8deg) translateX(2px);
+}
+
 /* SUBTITLE */
 .subtitle {
   margin-top: 24px;
@@ -97,6 +125,32 @@ a {
   color: #666;
 }
 
+.pn-phrase {
+  font-family: 'JetBrains Mono', monospace; 
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #00ff9d;
+  opacity: 0.4; 
+  margin-top: 15px;
+  transition: all 0.1s ease;
+  max-width: 400px;
+}
+
+.brand-container {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 180px;
+  opacity: 0.2;
+  transition: all 0.2s ease;
+}
+
+/* Efecto de pulso constante en el núcleo (muy PN) */
+.core-pulse {
+  animation: pulseCore 2s infinite;
+}
 
 /* SECTIONS */
 .section {
@@ -159,6 +213,7 @@ footer {
   color: #555;
 }
 
+
 /* =====================
    GLITCH EFFECTS
    ===================== */
@@ -174,6 +229,18 @@ footer {
   mix-blend-mode: screen;
   pointer-events: none;
   z-index: 50;
+}
+
+.pn-phrase.glitch-active {
+  opacity: 1;
+  text-shadow: 0 0 10px #00ff9d;
+  transform: skewX(-5deg); /* Un pequeño empujón visual */
+}
+
+.brand-container.glitch-active {
+  opacity: 0.8;
+  filter: drop-shadow(0 0 15px #00ff9d);
+  animation: shake 0.2s infinite;
 }
 
 /* =========================
@@ -271,3 +338,32 @@ footer {
   60% { transform: translate(-3px, 1px); }
   100% { transform: translate(0); }
 }
+
+@keyframes pulseCore {
+  0%, 100% { opacity: 0.3; r: 3; }
+  50% { opacity: 1; r: 5; }
+}
+
+/* Reacción al Glitch */
+.brand-container.glitch-active {
+  opacity: 1;
+  filter: drop-shadow(0 0 20px #00ff9d) contrast(150%);
+  transform: translateY(-50%) scale(1.05);
+  /* Efecto de distorsión de líneas */
+  clip-path: inset(0 0 0 0); 
+  animation: pn-glitch 0.3s steps(2) infinite;
+}
+
+@keyframes pn-glitch {
+  0% { clip-path: inset(20% 0 50% 0); transform: translateY(-50%) translateX(-5px); }
+  50% { clip-path: inset(10% 0 80% 0); transform: translateY(-50%) translateX(5px); }
+  100% { clip-path: inset(0 0 0 0); transform: translateY(-50%) translateX(0); }
+}
+/*
+@keyframes shake {
+  0% { transform: translateY(-50%) translate(2px, -2px); }
+  50% { transform: translateY(-50%) translate(-2px, 2px); }
+  100% { transform: translateY(-50%) translate(0px, 0px); }
+}
+*/
+
