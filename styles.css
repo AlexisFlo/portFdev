@@ -1,0 +1,273 @@
+:root {
+  --green-main: #00ff88;
+  --green-alt: #00ffdd;
+  --bg-black: #050505;
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-black);
+  color: white;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+a {
+  text-decoration: none;
+}
+/* NAV */
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 200;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+}
+
+.nav a {
+  color: #666;
+  text-decoration: none;
+  margin-left: 24px;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+.nav a:hover {
+  color: var(--green);
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 8vw;
+  position: relative;
+  z-index: 1;
+}
+
+/* TEXT */
+.glitch-text {
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 900;
+  position: relative;
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+
+.glitch-text span {
+  color: var(--green-main);
+}
+
+/* GLITCH TEXT */
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+}
+
+.glitch-text::before {
+  color: var(--green-main);
+  animation: glitchA 3s infinite;
+}
+
+.glitch-text::after {
+  color: var(--green-alt);
+  animation: glitchB 2.5s infinite;
+}
+
+/* SUBTITLE */
+.subtitle {
+  margin-top: 24px;
+  letter-spacing: 4px;
+  font-size: 14px;
+  color: #666;
+}
+
+
+/* SECTIONS */
+.section {
+  padding: 140px 10vw;
+}
+
+.section-title {
+  font-size: 3rem;
+  margin-bottom: 32px;
+  letter-spacing: 6px;
+}
+
+.section-text {
+  max-width: 600px;
+  color: #777;
+  line-height: 1.7;
+}
+
+/* PROJECTS */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+}
+
+.project {
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 24px;
+  transition: all 0.3s;
+}
+
+.project:hover {
+  border-color: var(--green);
+  transform: translateY(-6px);
+}
+
+.project h3 {
+  margin-bottom: 12px;
+}
+
+.project span {
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 3px;
+}
+
+/* CONTACT */
+.contact span {
+  display: inline-block;
+  margin-right: 24px;
+  color: #777;
+  letter-spacing: 3px;
+}
+
+/* FOOTER */
+footer {
+  padding: 40px;
+  text-align: center;
+  font-size: 11px;
+  color: #555;
+}
+
+/* =====================
+   GLITCH EFFECTS
+   ===================== */
+
+.glitch-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: var(--green-main);
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* =========================
+   GLITCH RAYS (vertical slices)
+   ========================= */
+.glitch-rays {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0;
+}
+
+.glitch-rays::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--green-main) 48%,
+      transparent 52%
+    );
+  mix-blend-mode: screen;
+  filter: blur(1px);
+}
+
+/* =========================
+   SCANLINES / RAYAS
+   ========================= */
+.glitch-lines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 70;
+  opacity: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.15) 0px,
+      rgba(255,255,255,0.15) 1px,
+      transparent 2px,
+      transparent 6px
+    );
+  mix-blend-mode: overlay;
+}
+
+/* =========================
+   ERROR MESSAGES
+   ========================= */
+.glitch-errors {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+  font-family: monospace;
+  font-size: 18px;
+  color: var(--green-main);
+  opacity: 0;
+}
+
+.glitch-errors span {
+  position: absolute;
+  white-space: nowrap;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 6px var(--green-main),
+    0 0 12px rgba(0,255,136,0.6);
+
+  transform-origin: left center;
+}
+
+/* NOISE */
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  z-index: 100;
+}
+
+/* ANIMATIONS */
+@keyframes glitchA {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, -2px); }
+  40% { transform: translate(2px, 2px); }
+  60% { transform: translate(-1px, 1px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchB {
+  0% { transform: translate(0); }
+  30% { transform: translate(3px, -1px); }
+  60% { transform: translate(-3px, 1px); }
+  100% { transform: translate(0); }
+}
