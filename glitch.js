@@ -4,6 +4,7 @@ const lines = document.querySelector('.glitch-lines');
 const errors = document.querySelector('.glitch-errors');
 const brand = document.querySelector('.brand-container');
 const phrase = document.querySelector('.pn-phrase'); 
+const expElements = document.querySelectorAll('.exp-dot, .exp-company, .exp-tech span');
 const canvas = document.getElementById('noise-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -79,6 +80,7 @@ setInterval(() => {
   if (canvas) canvas.classList.add('noise-active');
 
   headings.forEach(h => h.classList.add('glitch-active-text'));
+  expElements.forEach(el => el.classList.add('glitch-active-text'));
 
   rays.style.transform = `
     translateX(${Math.random() * 100 - 50}px)
@@ -98,6 +100,7 @@ setInterval(() => {
     if (canvas) canvas.classList.remove('noise-active');
 
     headings.forEach(h => h.classList.remove('glitch-active-text'));
+    expElements.forEach(el => el.classList.remove('glitch-active-text'));
 
     rays.style.opacity = '0';
     lines.style.opacity = '0';
