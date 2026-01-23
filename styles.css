@@ -53,16 +53,49 @@ h1, h2, h3, .pn-phrase {
   backdrop-filter: blur(6px);
 }
 
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 255, 157, 0.2);
+  z-index: 10000;
+  box-sizing: border-box;
+}
+
+.nav > span {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #00ff9d;
+  text-shadow: 0 0 10px #00ff9d;
+  letter-spacing: -1px;
+}
+
+.nav > div {
+  display: flex;
+  gap: 25px; 
+}
+
 .nav a {
-  color: #666;
   text-decoration: none;
-  margin-left: 24px;
-  font-size: 12px;
-  letter-spacing: 3px;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  opacity: 0.7;
+  transition: all 0.3s ease;
 }
 
 .nav a:hover {
-  color: var(--green);
+  opacity: 1;
+  color: #00ff9d;
+  text-shadow: 0 0 8px #00ff9d;
 }
 
 /* HERO */
@@ -283,13 +316,114 @@ h1, h2, h3, .pn-phrase {
 }
 
 /* CONTACT */
-.contact span {
-  display: inline-block;
-  margin-right: 24px;
-  color: #777;
-  letter-spacing: 3px;
+.contact-section {
+  padding: 100px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
 }
 
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.contact-card {
+  background: rgba(0, 255, 157, 0.03);
+  border: 1px solid rgba(0, 255, 157, 0.2);
+  padding: 40px 30px;
+  text-decoration: none;
+  color: #fff;
+  position: relative;
+  overflow: hidden; 
+  transition: all 0.3s ease;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 85% 100%, 0% 100%);
+}
+
+.contact-card:nth-child(even) {
+  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 25%);
+}
+
+.contact-card:nth-child(3n) {
+  clip-path: polygon(0% 0%, 85% 0%, 100% 15%, 100% 100%, 0% 100%);
+}
+
+.card-icon {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2rem;
+  color: #00ff9d;
+  display: block;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  color: #fff;
+  margin: 0 0 5px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-desc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.contact-card:hover {
+  background: rgba(0, 255, 157, 0.1);
+  border-color: #00ff9d;
+  transform: translateY(-5px) scale(1.02);
+  /* El brillo ahora seguirá la forma del trapecio */
+  filter: drop-shadow(0 0 15px rgba(0, 255, 157, 0.5));
+}
+
+.contact-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-top: 3px solid #00ff9d;
+  border-left: 3px solid #00ff9d;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.contact-card:hover::before {
+  opacity: 1;
+  top: 10px;
+  left: 10px;
+}
+
+/* Efecto Overlay "escaneo" al hacer hover */
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.2), transparent);
+  transition: all 0.5s ease;
+}
+
+.contact-card:hover .card-overlay {
+  left: 100%; /* Se desplaza de izquierda a derecha */
+}
+
+.contact-message {
+  font-family: 'JetBrains Mono', monospace;
+  color: #888;
+  font-size: 0.85rem;
+  margin-top: 50px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+}
 /* FOOTER */
 footer {
   padding: 40px;
@@ -443,6 +577,35 @@ footer {
   0% { clip-path: inset(20% 0 50% 0); transform: translateY(-50%) translateX(-5px); }
   50% { clip-path: inset(10% 0 80% 0); transform: translateY(-50%) translateX(5px); }
   100% { clip-path: inset(0 0 0 0); transform: translateY(-50%) translateX(0); }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    padding: 12px 20px; /* Reducimos padding en móvil */
+  }
+
+  .nav > span {
+    font-size: 1.1rem; /* Logo un poco más pequeño */
+  }
+
+  .nav > div {
+    gap: 12px; /* Reducimos el espacio entre links para que quepan */
+  }
+
+  .nav a {
+    font-size: 0.6rem; /* Tamaño optimizado para iPhone/Android */
+    letter-spacing: 1px;
+  }
+}
+
+/* Para celulares muy pequeños (ej. iPhone SE) */
+@media (max-width: 400px) {
+  .nav > div {
+    gap: 8px;
+  }
+  .nav a {
+    font-size: 0.55rem;
+  }
 }
 /*
 @keyframes shake {

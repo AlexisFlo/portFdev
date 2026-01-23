@@ -2,9 +2,11 @@ const headings = document.querySelectorAll('h1, h2, h3, .pn-phrase');
 const rays = document.querySelector('.glitch-rays');
 const lines = document.querySelector('.glitch-lines');
 const errors = document.querySelector('.glitch-errors');
+const navLogo = document.querySelector('.nav span');
 const brand = document.querySelector('.brand-container');
 const phrase = document.querySelector('.pn-phrase'); 
 const expElements = document.querySelectorAll('.exp-dot, .exp-company, .exp-tech span');
+const contactElements = document.querySelectorAll('.card-icon, .card-title, .card-desc');
 const canvas = document.getElementById('noise-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -78,9 +80,14 @@ setInterval(() => {
   if (brand) brand.classList.add('glitch-active');
   if (phrase) phrase.classList.add('glitch-active');
   if (canvas) canvas.classList.add('noise-active');
+  if (navLogo) {
+    navLogo.style.textShadow = "2px 0 #ff003c, -2px 0 #00ff9d";
+    navLogo.style.transform = "skewX(-10deg)";
+  }
 
   headings.forEach(h => h.classList.add('glitch-active-text'));
   expElements.forEach(el => el.classList.add('glitch-active-text'));
+  contactElements.forEach(el => el.classList.add('glitch-active-text'));
 
   rays.style.transform = `
     translateX(${Math.random() * 100 - 50}px)
@@ -98,9 +105,14 @@ setInterval(() => {
     if (brand) brand.classList.remove('glitch-active');
     if (phrase) phrase.classList.remove('glitch-active');
     if (canvas) canvas.classList.remove('noise-active');
+    if (navLogo) {
+      navLogo.style.textShadow = "0 0 10px #00ff9d";
+      navLogo.style.transform = "skewX(0deg)";
+    }
 
     headings.forEach(h => h.classList.remove('glitch-active-text'));
     expElements.forEach(el => el.classList.remove('glitch-active-text'));
+    contactElements.forEach(el => el.classList.remove('glitch-active-text'));
 
     rays.style.opacity = '0';
     lines.style.opacity = '0';
