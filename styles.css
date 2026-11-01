@@ -10,7 +10,6 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -50,7 +49,6 @@ h1, h2, h3, .pn-phrase {
   opacity: 0.12 !important;
 }
 
-/* NAV */
 .nav {
   position: fixed;
   top: 0;
@@ -63,6 +61,32 @@ h1, h2, h3, .pn-phrase {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 255, 157, 0.2);
   z-index: 10000;
+  overflow: hidden;
+  animation: nav-glow 4s ease-in-out infinite;
+}
+
+.nav::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 35%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--green), #fff, var(--green), transparent);
+  animation: nav-scan 5s linear infinite;
+}
+
+.nav.glitch-active {
+  animation: nav-flare 0.35s steps(3);
+}
+
+.nav.glitch-active a,
+.nav.glitch-active .lang-toggle {
+  animation: nav-link-glitch 0.35s steps(1);
+}
+
+.nav.glitch-active a:nth-child(even) {
+  animation-delay: 0.06s;
 }
 
 .nav > span {
@@ -78,6 +102,37 @@ h1, h2, h3, .pn-phrase {
 .nav > div {
   display: flex;
   gap: 28px;
+  margin-left: auto;
+}
+
+.lang-toggle {
+  display: flex;
+  gap: 6px;
+  margin-left: 28px;
+  padding: 6px 0 6px 28px;
+  background: none;
+  border: none;
+  border-left: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.lang-toggle span {
+  transition: color 0.2s ease;
+}
+
+.lang-toggle .is-active {
+  color: var(--green);
+  text-shadow: 0 0 8px var(--green);
+}
+
+/* En táctil el hover se queda pegado después de tocar */
+@media (hover: hover) {
+  .lang-toggle span[data-lang]:hover {
+    color: #fff;
+  }
 }
 
 .nav a {
@@ -85,14 +140,47 @@ h1, h2, h3, .pn-phrase {
   color: var(--text);
   font-size: 0.9rem;
   white-space: nowrap;
-  transition: color 0.2s ease;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
 }
 
-.nav a:hover {
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.nav a.is-active {
   color: var(--green);
+  text-shadow: 0 0 8px var(--green);
 }
 
-/* HERO */
+.nav a.is-active::after {
+  transform: scaleX(1);
+}
+
+@media (hover: hover) {
+  .nav a:hover {
+    color: var(--green);
+    text-shadow: 0 0 8px var(--green);
+    animation: nav-link-glitch 0.3s steps(1);
+  }
+
+  .nav a:hover::after {
+    transform: scaleX(1);
+  }
+}
+
 .hero {
   min-height: 100vh;
   display: flex;
@@ -103,7 +191,6 @@ h1, h2, h3, .pn-phrase {
   z-index: 1;
 }
 
-/* TEXT */
 .glitch-text {
   font-size: clamp(3rem, 8vw, 7rem);
   font-weight: 900;
@@ -117,7 +204,6 @@ h1, h2, h3, .pn-phrase {
   color: var(--green-main);
 }
 
-/* GLITCH TEXT */
 .glitch-text::before,
 .glitch-text::after {
   content: attr(data-text);
@@ -141,7 +227,6 @@ h1, h2, h3, .pn-phrase {
   transform: skewX(-8deg) translateX(2px);
 }
 
-/* SUBTITLE */
 .subtitle {
   margin-top: 24px;
   font-family: var(--font-mono);
@@ -175,7 +260,6 @@ h1, h2, h3, .pn-phrase {
   animation: pulseCore 2s infinite;
 }
 
-/* SECTIONS */
 .section {
   padding: 96px var(--gutter);
 }
@@ -189,7 +273,6 @@ h1, h2, h3, .pn-phrase {
   margin-bottom: 48px;
 }
 
-/* Bloques con etiqueta, compartidos por Proyectos, Sobre mí y Servicios */
 .data-block {
   background: rgba(0, 255, 157, 0.02);
   border: 1px solid rgba(0, 255, 157, 0.15);
@@ -814,6 +897,54 @@ h1, h2, h3, .pn-phrase {
   100% { clip-path: inset(0 0 0 0); transform: translateY(var(--brand-y)) translateX(0); }
 }
 
+@keyframes nav-glow {
+  0%, 100% {
+    border-bottom-color: rgba(0, 255, 157, 0.2);
+    box-shadow: 0 0 0 rgba(0, 255, 157, 0);
+  }
+  50% {
+    border-bottom-color: rgba(0, 255, 157, 0.55);
+    box-shadow: 0 2px 18px rgba(0, 255, 157, 0.2);
+  }
+}
+
+@keyframes nav-flare {
+  0%, 100% {
+    border-bottom-color: var(--green);
+    box-shadow: 0 2px 28px rgba(0, 255, 157, 0.55);
+  }
+  50% {
+    border-bottom-color: #ff003c;
+    box-shadow: 0 2px 18px rgba(255, 0, 60, 0.35);
+  }
+}
+
+@keyframes nav-scan {
+  0% { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(290%); }
+}
+
+@keyframes nav-link-glitch {
+  0% {
+    transform: translate(-2px, 0) skewX(-12deg);
+    text-shadow: 2px 0 #ff003c, -2px 0 var(--green);
+    clip-path: inset(0 0 45% 0);
+  }
+  30% {
+    transform: translate(3px, 0) skewX(8deg);
+    text-shadow: -2px 0 #ff003c, 2px 0 var(--green);
+    clip-path: inset(45% 0 0 0);
+  }
+  60% {
+    transform: translate(-1px, 1px);
+    text-shadow: 2px 0 var(--green);
+    clip-path: none;
+  }
+  100% {
+    transform: none;
+  }
+}
+
 @keyframes micro-glitch {
   0% { transform: translate(0); text-shadow: 2px 0 #ff003c; }
   25% { transform: translate(-1px, 1px); }
@@ -832,19 +963,24 @@ h1, h2, h3, .pn-phrase {
 
 @media (max-width: 768px) {
   .nav {
-    padding: 12px 20px; /* Reducimos padding en móvil */
+    padding: 12px 20px;
   }
 
   .nav-logo {
-    height: 30px; /* Logo un poco más pequeño */
+    height: 30px;
   }
 
   .nav > div {
-    gap: 14px; /* Reducimos el espacio entre links para que quepan */
+    gap: 14px;
   }
 
   .nav a {
     font-size: 0.8rem;
+  }
+
+  .lang-toggle {
+    margin-left: 14px;
+    padding-left: 14px;
   }
 
   .section {
@@ -917,20 +1053,25 @@ h1, h2, h3, .pn-phrase {
   }
 }
 
-/* Los 5 enlaces ya no caben junto al logo: pasan a su propia fila */
-@media (max-width: 520px) {
+@media (max-width: 560px) {
   .nav {
     flex-wrap: wrap;
     row-gap: 6px;
   }
 
   .nav > div {
+    order: 3;
     width: 100%;
     justify-content: space-between;
   }
+
+  .lang-toggle {
+    margin-left: auto;
+    padding-left: 0;
+    border-left: none;
+  }
 }
 
-/* Para celulares muy pequeños (ej. iPhone SE) */
 @media (max-width: 400px) {
   .nav > div {
     gap: 8px;
@@ -942,7 +1083,10 @@ h1, h2, h3, .pn-phrase {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .brand-container img {
-    animation: none;
+  .brand-container img,
+  .nav,
+  .nav::after,
+  .nav a {
+    animation: none !important;
   }
 }

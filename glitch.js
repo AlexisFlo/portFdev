@@ -2,7 +2,9 @@ const headings = document.querySelectorAll('h1, h2, h3, .pn-phrase');
 const rays = document.querySelector('.glitch-rays');
 const lines = document.querySelector('.glitch-lines');
 const errors = document.querySelector('.glitch-errors');
+const nav = document.querySelector('.nav');
 const navLogo = document.querySelector('.nav span');
+const navLinks = document.querySelectorAll('.nav a');
 const brand = document.querySelector('.brand-container');
 const phrase = document.querySelector('.pn-phrase'); 
 const expElements = document.querySelectorAll('.exp-dot, .exp-company, .exp-tech span');
@@ -48,6 +50,30 @@ function generateNoise() {
   ctx.putImageData(idata, 0, 0);
 }
 
+const LEET_LETTERS = { a: '4', e: '3', i: '1', o: '0', s: '5', t: '7' };
+
+// Cambia un enlace del menú a leet por un instante, como el nickname del footer
+function glitchNavLink() {
+  const link = navLinks[Math.floor(Math.random() * navLinks.length)];
+  const originalText = link.textContent;
+  const lang = document.documentElement.lang;
+
+  link.textContent = originalText.replace(/[aeiost]/gi, c => LEET_LETTERS[c.toLowerCase()]);
+
+  setTimeout(() => {
+    if (document.documentElement.lang === lang) link.textContent = originalText;
+  }, 150);
+}
+
+const navSections = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const link = document.querySelector(`.nav a[href="#${entry.target.id}"]`);
+    if (link) link.classList.toggle('is-active', entry.isIntersecting);
+  });
+}, { rootMargin: '-45% 0px -54% 0px' });
+
+document.querySelectorAll('section[id]').forEach(section => navSections.observe(section));
+
 function noiseLoop() {
   generateNoise();
   requestAnimationFrame(noiseLoop);
@@ -81,6 +107,8 @@ setInterval(() => {
   if (brand) brand.classList.add('glitch-active');
   if (phrase) phrase.classList.add('glitch-active');
   if (canvas) canvas.classList.add('noise-active');
+  nav.classList.add('glitch-active');
+  glitchNavLink();
   if (navLogo) {
     navLogo.style.filter = "drop-shadow(2px 0 #ff003c) drop-shadow(-2px 0 #00ff9d)";
     navLogo.style.transform = "skewX(-10deg)";
@@ -88,7 +116,6 @@ setInterval(() => {
   if (myNick) {
     myNick.style.background = "#00ff9d";
     myNick.style.color = "#000";
-    // Opcional: cambiar el texto por un momento
     const originalText = myNick.innerText;
     myNick.innerText = "FL0D3V_SY5";
     
@@ -96,7 +123,7 @@ setInterval(() => {
         myNick.style.background = "transparent";
         myNick.style.color = "#00ff9d";
         myNick.innerText = originalText;
-    }, 150); // Glitch muy rápido
+    }, 150);
   }
 
   headings.forEach(h => h.classList.add('glitch-active-text'));
@@ -119,6 +146,7 @@ setInterval(() => {
     if (brand) brand.classList.remove('glitch-active');
     if (phrase) phrase.classList.remove('glitch-active');
     if (canvas) canvas.classList.remove('noise-active');
+    nav.classList.remove('glitch-active');
     if (navLogo) {
       navLogo.style.filter = "";
       navLogo.style.transform = "skewX(0deg)";
