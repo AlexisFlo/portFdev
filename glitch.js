@@ -1,13 +1,10 @@
-const headings = document.querySelectorAll('h1, h2, h3, .pn-phrase');
+const headings = document.querySelectorAll('h1, h2, .pn-phrase');
 const rays = document.querySelector('.glitch-rays');
 const lines = document.querySelector('.glitch-lines');
 const errors = document.querySelector('.glitch-errors');
 const navLogo = document.querySelector('.nav span');
 const brand = document.querySelector('.brand-container');
 const phrase = document.querySelector('.pn-phrase'); 
-const footerLines = document.querySelectorAll('.footer-line, .barcode');
-const expElements = document.querySelectorAll('.exp-dot, .exp-company, .exp-tech span');
-const contactElements = document.querySelectorAll('.card-icon, .card-title, .card-desc');
 const myNick = document.querySelector('.nickname');
 const canvas = document.getElementById('noise-canvas');
 const ctx = canvas.getContext('2d');
@@ -22,24 +19,6 @@ const ERROR_MESSAGES = [
   'NOIZE OVERLOAD',
   'DATA FRAGMENTED'
 ];
-
-let seconds = 0;
-let minutes = 0;
-let hours = 0;
-
-function updateUptime() {
-    seconds++;
-    if (seconds >= 60) { seconds = 0; minutes++; }
-    if (minutes >= 60) { minutes = 0; hours++; }
-    
-    const format = (n) => n.toString().padStart(2, '0');
-    const counter = document.getElementById('uptime-counter');
-    if (counter) {
-        counter.innerText = `${format(hours)}:${format(minutes)}:${format(seconds)}`;
-    }
-}
-
-setInterval(updateUptime, 1000);
 
 function resize() {
   canvas.width = window.innerWidth;
@@ -101,7 +80,7 @@ setInterval(() => {
   if (phrase) phrase.classList.add('glitch-active');
   if (canvas) canvas.classList.add('noise-active');
   if (navLogo) {
-    navLogo.style.textShadow = "2px 0 #ff003c, -2px 0 #00ff9d";
+    navLogo.style.filter = "drop-shadow(2px 0 #ff003c) drop-shadow(-2px 0 #00ff9d)";
     navLogo.style.transform = "skewX(-10deg)";
   }
   if (myNick) {
@@ -112,16 +91,13 @@ setInterval(() => {
     myNick.innerText = "FL0D3V_SY5";
     
     setTimeout(() => {
-        myNick.style.background = "rgba(0, 255, 157, 0.05)";
+        myNick.style.background = "transparent";
         myNick.style.color = "#00ff9d";
         myNick.innerText = originalText;
     }, 150); // Glitch muy rápido
   }
 
   headings.forEach(h => h.classList.add('glitch-active-text'));
-  expElements.forEach(el => el.classList.add('glitch-active-text'));
-  contactElements.forEach(el => el.classList.add('glitch-active-text'));
-  footerLines.forEach(el => el.style.opacity = "1");
 
   rays.style.transform = `
     translateX(${Math.random() * 100 - 50}px)
@@ -140,14 +116,11 @@ setInterval(() => {
     if (phrase) phrase.classList.remove('glitch-active');
     if (canvas) canvas.classList.remove('noise-active');
     if (navLogo) {
-      navLogo.style.textShadow = "0 0 10px #00ff9d";
+      navLogo.style.filter = "";
       navLogo.style.transform = "skewX(0deg)";
     }
 
     headings.forEach(h => h.classList.remove('glitch-active-text'));
-    expElements.forEach(el => el.classList.remove('glitch-active-text'));
-    contactElements.forEach(el => el.classList.remove('glitch-active-text'));
-    footerLines.forEach(el => el.style.opacity = "0.3");
 
     rays.style.opacity = '0';
     lines.style.opacity = '0';
