@@ -90,6 +90,7 @@ h1, h2, h3, .pn-phrase {
   letter-spacing: 2px;
   opacity: 0.7;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .nav a:hover {
@@ -187,7 +188,7 @@ h1, h2, h3, .pn-phrase {
 }
 
 .section-title {
-  font-size: 3rem;
+  font-size: clamp(1.8rem, 9vw, 3rem);
   margin-bottom: 32px;
   letter-spacing: 6px;
 }
@@ -277,42 +278,67 @@ h1, h2, h3, .pn-phrase {
 /* PROJECTS */
 .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 32px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+@media (min-width: 1400px) {
+  .projects { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .projects { grid-template-columns: 1fr; }
 }
 
 .project {
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 24px;
-  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
 }
 
-.project:hover {
-  border-color: var(--green);
+.project:hover,
+.project:has(a:focus-visible) {
+  background: rgba(0, 255, 157, 0.06);
+  border-color: #00ff9d;
   transform: translateY(-6px);
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.2);
 }
 
 .projects a {
   text-decoration: none !important;
-  color: inherit;                 
+  color: inherit;
   outline: none;
 }
 
-.project a:visited,
-.project a:hover,
-.project a:active {
-  text-decoration: none !important;
-  color: inherit !important; 
+/* Toda la card funciona como enlace */
+.project a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
 
 .project h3 {
-  margin-bottom: 12px;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  margin: 8px 0 12px;
+  transition: color 0.3s ease;
 }
 
-.project span {
-  font-size: 11px;
-  color: var(--green);
-  letter-spacing: 3px;
+.project h3::after {
+  content: "\00a0↗";
+  color: #00ff9d;
+}
+
+.project:hover h3 {
+  color: #00ff9d;
+}
+
+.project p {
+  flex-grow: 1;
+  color: #ccc;
+  font-size: 0.85rem;
+  line-height: 1.6;
 }
 
 .about-section {
@@ -333,9 +359,13 @@ h1, h2, h3, .pn-phrase {
     color: #ccc;
     line-height: 1.7;
     margin-bottom: 20px;
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 0.8rem + 0.25vw, 0.95rem);
     text-align: left;
-    max-width: 70ch;
+    text-wrap: pretty;
+}
+
+.profile-text p:last-child {
+    margin-bottom: 0;
 }
 
 /* Grid para Educación y Skills */
@@ -397,6 +427,164 @@ h1, h2, h3, .pn-phrase {
 .specialty {
     color: #00ff9d !important;
     font-style: italic;
+}
+
+/* SERVICES */
+.services-section {
+  padding: 100px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.services-intro {
+  margin: 40px 0 50px;
+}
+
+.services-intro h3 {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.services-intro h3 span {
+  color: #00ff9d;
+  display: block;
+}
+
+.services-intro p {
+  color: #ccc;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  max-width: 70ch;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.service-card {
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  background: rgba(0, 255, 157, 0.06);
+  border-color: #00ff9d;
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.2);
+}
+
+.service-card-wide {
+  grid-column: 1 / -1;
+}
+
+.service-card-wide .service-list {
+  columns: 2;
+  column-gap: 30px;
+}
+
+.service-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.service-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  fill: none;
+  stroke: #00ff9d;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(0, 255, 157, 0.6));
+}
+
+.service-header h3 {
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+}
+
+.service-tagline {
+  color: #00ff9d;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+.service-list,
+.why-list {
+  list-style: none;
+}
+
+.service-list li,
+.why-list li {
+  color: #ccc;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  position: relative;
+  break-inside: avoid;
+}
+
+.service-list li::before,
+.why-list li::before {
+  position: absolute;
+  left: 0;
+  color: #00ff9d;
+}
+
+.service-list li::before {
+  content: ">";
+}
+
+.why-list li::before {
+  content: "✓";
+}
+
+.services-why {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.services-cta {
+  flex-shrink: 0;
+  text-decoration: none;
+  color: #00ff9d;
+  border: 1px solid #00ff9d;
+  padding: 14px 24px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.services-cta:hover {
+  background: #00ff9d;
+  color: #000;
+  box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+}
+
+@media (max-width: 768px) {
+  .services-grid { grid-template-columns: 1fr; }
+  .service-card-wide .service-list { columns: 1; }
+  .services-why {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .why-list { text-align: left; }
 }
 
 /* CONTACT */
@@ -781,6 +969,19 @@ h1, h2, h3, .pn-phrase {
   }
 }
 
+/* Los 5 enlaces ya no caben junto al logo: pasan a su propia fila */
+@media (max-width: 480px) {
+  .nav {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  .nav > div {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
 /* Para celulares muy pequeños (ej. iPhone SE) */
 @media (max-width: 400px) {
   .nav > div {
@@ -788,6 +989,7 @@ h1, h2, h3, .pn-phrase {
   }
   .nav a {
     font-size: 0.55rem;
+    letter-spacing: 0;
   }
 }
 
