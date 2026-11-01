@@ -1,10 +1,12 @@
-const headings = document.querySelectorAll('h1, h2, .pn-phrase');
+const headings = document.querySelectorAll('h1, h2, h3, .pn-phrase');
 const rays = document.querySelector('.glitch-rays');
 const lines = document.querySelector('.glitch-lines');
 const errors = document.querySelector('.glitch-errors');
 const navLogo = document.querySelector('.nav span');
 const brand = document.querySelector('.brand-container');
 const phrase = document.querySelector('.pn-phrase'); 
+const expElements = document.querySelectorAll('.exp-dot, .exp-company, .exp-tech span');
+const contactElements = document.querySelectorAll('.card-icon, .card-title, .card-desc');
 const myNick = document.querySelector('.nickname');
 const canvas = document.getElementById('noise-canvas');
 const ctx = canvas.getContext('2d');
@@ -98,6 +100,8 @@ setInterval(() => {
   }
 
   headings.forEach(h => h.classList.add('glitch-active-text'));
+  expElements.forEach(el => el.classList.add('glitch-active-text'));
+  contactElements.forEach(el => el.classList.add('glitch-active-text'));
 
   rays.style.transform = `
     translateX(${Math.random() * 100 - 50}px)
@@ -121,6 +125,8 @@ setInterval(() => {
     }
 
     headings.forEach(h => h.classList.remove('glitch-active-text'));
+    expElements.forEach(el => el.classList.remove('glitch-active-text'));
+    contactElements.forEach(el => el.classList.remove('glitch-active-text'));
 
     rays.style.opacity = '0';
     lines.style.opacity = '0';
